@@ -29,7 +29,7 @@ struct CalculatorBrain {
         case .constant(let value):
             accumulator = value
             descriptions.append(symble)
-        case .operationNoArgument(let f):
+        case .operationNoArguments(let f):
             accumulator = f()
             descriptions.append(symble)
         case .unaryOperation(let f):
@@ -42,12 +42,12 @@ struct CalculatorBrain {
                 }
                 accumulator = f(operand)
             }
-        case .binaryoperation(let f):
+        case .binaryOperation(let f):
             if resultIsPending {
-                performBinayOperation()
+                performBinaryOperation()
             }
             if accumulator != nil {
-                pendingBinaryOperation = pendingBinaryOperation(function: f, firstOperand: accumulator!)
+                pendingBinaryOperation = PendingBinaryOperation(function: f, firstOperand: accumulator!)
             }
             descriptions.append(symble)
         case .equals:
@@ -55,7 +55,7 @@ struct CalculatorBrain {
         }
     }
     
-    mutating func clear {
+    mutating func clear() {
         accumulator = nil
         pendingBinaryOperation = nil
         descriptions = []
@@ -76,7 +76,7 @@ struct CalculatorBrain {
     
     private var formattedAccumulator: String? {
         if let number = accumulator {
-            return numberFormatter?.string(from: number as<#T##NSNumber#>) ?? String(number)
+            return numberFormatter?.string(from: number as NSNumber) ?? String(number)
         } else {
             return nil
         }
@@ -90,7 +90,7 @@ struct CalculatorBrain {
         case equals
     }
     
-    private var operations: Dictionary<String : Operation> = [
+    private var operations: [String : Operation] = [
         "∏": Operation.constant(Double.pi),
         "E": Operation.constant(M_E),
         "√": Operation.unaryOperation(sqrt),
@@ -107,10 +107,10 @@ struct CalculatorBrain {
         "=": Operation.equals
     ]
     
-    private mutating func performBinayOperation {
+    private mutating func performBinaryOperation() {
         guard pendingBinaryOperation != nil && accumulator != nil else { return }
         accumulator = pendingBinaryOperation!.perForm(with: accumulator!)
-        pendingBinaryOperation= nil
+        pendingBinaryOperation = nil
     }
     
     private var pendingBinaryOperation: PendingBinaryOperation?

@@ -52,9 +52,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func floatingPoint(_ sender: UIButton) {
-        if !userIsInthemiddleOfTyping {
+        if !userIsInTheMiddleOfTyping {
             display.text = "0" + numberFormatter.decimalSeparator
-        } else if !display.text!.contains(numberFormatter.decimalseparator) {
+        } else if !display.text!.contains(numberFormatter.decimalSeparator) {
             display.text = display.text! + numberFormatter.decimalSeparator
         }
          userIsInTheMiddleOfTyping = true
