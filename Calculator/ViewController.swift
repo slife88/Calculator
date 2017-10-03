@@ -14,13 +14,32 @@ class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var decimalSeparator: UIButton!
     
+    var displayValue: Double {
+        get {
+            return Double(display.text!)!
+        }
+        set {
+            display.text = numberFormatter.string(from: newValue as NSNumber)
+        }
+    }
+    var userIsInTheMiddleOfTyping = false
+    private var brain = CalculatorBrain()
+    private var numberFormatter = NumberFormatter()
     
     @IBAction func touchDigit(_ sender: UIButton) {
-        
+        let digit = sender.currentTitle!
+        if userIsInTheMiddleOfTyping {
+            display.text = display.text! + digit
+        } else {
+            display.text = digit
+            userIsInTheMiddleOfTyping = true
+        }
     }
 
     @IBAction func performOperation(_ sender: UIButton) {
-        
+        if userIsInTheMiddleOfTyping {
+            
+        }
     }
     
     @IBAction func floatingPoint(_ sender: UIButton) {
