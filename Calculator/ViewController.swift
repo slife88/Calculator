@@ -18,11 +18,20 @@ class ViewController: UIViewController {
     @IBAction func touchDigit(_ sender: UIButton) {
         
     }
+
+    @IBAction func performOperation(_ sender: UIButton) {
+        
+    }
+    
     @IBAction func floatingPoint(_ sender: UIButton) {
         
     }
     
     @IBAction func backSpace(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func clearAll(_ sender: UIButton) {
         
     }
     
