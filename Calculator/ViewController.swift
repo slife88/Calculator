@@ -52,20 +52,36 @@ class ViewController: UIViewController {
     }
     
     @IBAction func floatingPoint(_ sender: UIButton) {
-        
+        if !userIsInthemiddleOfTyping {
+            display.text = "0" + numberFormatter.decimalSeparator
+        } else if !display.text!.contains(numberFormatter.decimalseparator) {
+            display.text = display.text! + numberFormatter.decimalSeparator
+        }
+         userIsInTheMiddleOfTyping = true
     }
     
     @IBAction private func backSpace(_ sender: UIButton) {
         guard userIsInTheMiddleOfTyping else { return }
+        display.text = String(display.text!.characters.dropLast())
+        if display.text?.characters.count == 0 {
+            displayValue = 0.0
+            userIsInTheMiddleOfTyping = false
+        }
     }
     
     @IBAction private func clearAll(_ sender: UIButton) {
-        
+        brain.clear()
+        displayValue = 0.0
+        history.text = " "
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        numberFormatter.maximumFractionDigits = 6
+        numberFormatter.minimumFractionDigits = 0
+        numberFormatter.minimumIntegerDigits = 1
+        decimalSeparator.setTitle(numberFormatter.decimalSeparator, for: .normal)
         brain.numberFormatter = numberFormatter
     }
     
