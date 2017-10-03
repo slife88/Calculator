@@ -38,25 +38,35 @@ class ViewController: UIViewController {
 
     @IBAction func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
-            
+            brain.setOperand(displayValue)
+            userIsInTheMiddleOfTyping = false
         }
+        if let mathematicalSymble = sender.currentTitle {
+            brain.performOperation(mathematicalSymble)
+        }
+        if let result = brain.result {
+            displayValue = result
+        }
+        let postFixDescription = brain.resultIsPending ? "..." : "="
+        history.text = brain.description + postFixDescription
     }
     
     @IBAction func floatingPoint(_ sender: UIButton) {
         
     }
     
-    @IBAction func backSpace(_ sender: UIButton) {
-        
+    @IBAction private func backSpace(_ sender: UIButton) {
+        guard userIsInTheMiddleOfTyping else { return }
     }
     
-    @IBAction func clearAll(_ sender: UIButton) {
+    @IBAction private func clearAll(_ sender: UIButton) {
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        brain.numberFormatter = numberFormatter
     }
     
     override func didReceiveMemoryWarning() {
